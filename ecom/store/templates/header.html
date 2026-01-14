@@ -1,0 +1,305 @@
+{% block header %} {% load static %}
+<!-- BEGIN #header -->
+<div id="header" class="header">
+  <!-- BEGIN container -->
+  <div class="container">
+    <!-- BEGIN header-container -->
+    <div class="header-container">
+      <!-- BEGIN navbar-header -->
+      <div class="navbar-header">
+        <button
+          type="button"
+          class="navbar-toggle collapsed"
+          data-toggle="collapse"
+          data-target="#navbar-collapse"
+        >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="header-logo">
+          <a href='{% url "home" %}'>
+            <span class="brand"></span>
+            <span>Color</span>Admin
+            <small>e-commerce frontend theme</small>
+          </a>
+        </div>
+      </div>
+      <!-- END navbar-header -->
+      <!-- BEGIN header-nav -->
+      <div class="header-nav">
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav">
+            <li class="active"><a href='{% url "home" %}'>Home</a></li>
+            <li class="dropdown dropdown-full-width dropdown-hover">
+              <a href="#" data-toggle="dropdown">
+                Our Store
+                <i class="fa fa-angle-down"></i>
+                <span class="arrow top"></span>
+              </a>
+              <!-- BEGIN dropdown-menu -->
+              <div class="dropdown-menu p-0">
+                <!-- BEGIN dropdown-menu-container -->
+                <div class="dropdown-menu-container">
+                  <!-- BEGIN dropdown-menu-sidebar -->
+                  <div class="dropdown-menu-sidebar">
+                    <h4 class="title">Shop By Categories</h4>
+                    <ul class="dropdown-menu-list">
+                      {% for category in categories %}
+                      <li><a href="{% url 'category_product' category.slug %}">{{ category.name }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <!-- END dropdown-menu-sidebar -->
+                  <!-- BEGIN dropdown-menu-content -->
+                  <div class="dropdown-menu-content">
+                    <h4 class="title">Shop By Popular Phone</h4>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <ul class="dropdown-menu-list">
+                          <li>
+                            <a href="product_detail.html"
+                              ><i
+                                class="fa fa-fw fa-angle-right text-muted"
+                              ></i>
+                              iPhone 7</a
+                            >
+                          </li>
+                          <li>
+                            <a href="product_detail.html"
+                              ><i
+                                class="fa fa-fw fa-angle-right text-muted"
+                              ></i>
+                              iPhone 6s</a
+                            >
+                          </li>
+                          <li>
+                            <a href="product_detail.html"
+                              ><i
+                                class="fa fa-fw fa-angle-right text-muted"
+                              ></i>
+                              iPhone 6</a
+                            >
+                          </li>
+                          <li>
+                            <a href="product_detail.html"
+                              ><i
+                                class="fa fa-fw fa-angle-right text-muted"
+                              ></i>
+                              iPhone 5s</a
+                            >
+                          </li>
+                          <li>
+                            <a href="product_detail.html"
+                              ><i
+                                class="fa fa-fw fa-angle-right text-muted"
+                              ></i>
+                              iPhone 5</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-3">
+                        <ul class="dropdown-menu-list">
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Galaxy S7</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Galaxy A9</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Galaxy J3</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Galaxy Note 5</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Galaxy S7</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-3">
+                        <ul class="dropdown-menu-list">
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Lumia 730</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Lumia 735</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Lumia 830</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Lumia 820</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Lumia Icon</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-3">
+                        <ul class="dropdown-menu-list">
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Xperia X</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Xperia Z5</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Xperia M5</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Xperia C5</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>Xperia C4</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <h4 class="title">Shop By Brand</h4>
+                    <ul class="dropdown-brand-list m-b-0">
+                      {% for brand in brands %}
+                      <li>
+                        <a href="{% url 'brand_product' brand.slug %}">
+                        {% if brand.logo %}
+                          <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+                        {% comment %} {% else %}
+                          <img src="{% static 'images/default-brand.png' %}" alt="{{ brand.name }}"> {% endcomment %}
+                        {% endif %}
+                      </a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <!-- END dropdown-menu-content -->
+                </div>
+                <!-- END dropdown-menu-container -->
+              </div>
+              <!-- END dropdown-menu -->
+            </li>
+            <li class="dropdown dropdown-hover">
+              <a href="#" data-toggle="dropdown">
+                Accessories
+                <i class="fa fa-angle-down"></i>
+                <span class="arrow top"></span>
+              </a>
+              <ul class="dropdown-menu">
+                {% for category in categories %}
+                <li><a href="{% url 'category_product' category.slug %}">{{ category.name }}</a></li>
+                {% endfor %}
+                <li><a href="{% url 'category_summary' %}">All Categories</a></li>
+              </ul>
+            </li>
+            <li><a href='{% url "product" %}'>New Arrival</a></li>
+            <li class="dropdown dropdown-hover"><a href="#" data-toggle="dropdown">Pages<i class="fa fa-angle-down"></i><span class="arrow top"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href='{% url "home" %}'>Home (Default)</a></li>
+                <li><a href="index_fixed_header.html">Home (Fixed Header)</a></li>
+                <li><a href="index_inverse_header.html">Home (Inverse Header)</a></li>
+                <li><a href='{% url "searchresults" %}'>Search Results</a></li>
+                <li><a href='{% url "product" %}'>Product Page</a></li>
+                <li><a href="product_detail.html">Product Details Page</a></li>
+                <li><a href="checkout_cart.html">Checkout Cart</a></li>
+                <li><a href="checkout_info.html">Checkout Shipping</a></li>
+                <li><a href="checkout_payment.html">Checkout Payment</a></li>
+                <li><a href="checkout_complete.html">Checkout Complete</a></li>
+                <li><a href='{% url "myaccount" %}'>My Account</a></li>
+                <li><a href='{% url "contactus" %}'>Contact Us</a></li>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                <li><a href='{% url "faq" %}'>FAQ</a></li>
+              </ul>
+            </li>
+            {% comment %} <li class="dropdown dropdown-hover"><a href="{% url 'category_summary' %}" data-toggle="dropdown">Categories<i class="fa fa-angle-down"></i><span class="arrow top"></span></a></li> {% endcomment %}
+            <li class="dropdown dropdown-hover"><a href="#" data-toggle="dropdown"><i class="fa fa-search search-btn"></i><span class="arrow top"></span></a>
+              <div class="dropdown-menu p-15">
+                <form action='{% url "searchresults" %}' method="POST"name="search_form">
+                  <div class="input-group">
+                    <input type="text" placeholder="Search" class="form-control bg-silver-lighter"/>
+                    <span class="input-group-btn"><button class="btn btn-inverse" type="submit"><i class="fa fa-search"></i></button></span>
+                  </div>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- END header-nav -->
+      <!-- BEGIN header-nav -->
+      <div class="header-nav">
+        <ul class="nav pull-right">
+          <li class="dropdown dropdown-hover">
+            <a href="#" class="header-cart" data-toggle="dropdown">
+              <i class="fa fa-shopping-bag"></i>
+              <span class="total" id="cart_quantity">{{ cart|length }}</span>
+              <span class="arrow top"></span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-cart p-0">
+              <div class="cart-header">
+                <h4 class="cart-title">Shopping Bag <span id="cart_quantity">({{ cart|length }})</span></h4>
+              </div>
+              <div class="cart-body">
+                <ul class="cart-item">
+                  <li>
+                    <div class="cart-item-image">
+                      <img src={% static "assets/img/ipad.jpg" %} alt="" />
+                    </div>
+                    <div class="cart-item-info">
+                      <h4>iPad Pro Wi-Fi 128GB - Silver</h4>
+                      <p class="price">$699.00</p>
+                    </div>
+                    <div class="cart-item-close">
+                      <a href="#" data-toggle="tooltip" data-title="Remove"
+                        >&times;</a
+                      >
+                    </div>
+                  </li>
+                  <li>
+                    <div class="cart-item-image">
+                      <img src={% static "assets/img/imac.jpg" %} alt="" />
+                    </div>
+                    <div class="cart-item-info">
+                      <h4>21.5-inch iMac</h4>
+                      <p class="price">$1299.00</p>
+                    </div>
+                    <div class="cart-item-close">
+                      <a href="#" data-toggle="tooltip" data-title="Remove"
+                        >&times;</a
+                      >
+                    </div>
+                  </li>
+                  <li>
+                    <div class="cart-item-image">
+                      <img src={% static "assets/img/iphone.png" %} alt="" />
+                    </div>
+                    <div class="cart-item-info">
+                      <h4>iPhone 6s 16GB - Silver</h4>
+                      <p class="price">$649.00</p>
+                    </div>
+                    <div class="cart-item-close">
+                      <a href="#" data-toggle="tooltip" data-title="Remove"
+                        >&times;</a
+                      >
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="cart-footer">
+                <div class="row row-space-10">
+                  <div class="col-xs-6">
+                    <a
+                      href="{% url 'cart_summary' %}"
+                      class="btn btn-default btn-block"
+                      >View Cart</a
+                    >
+                  </div>
+                  <div class="col-xs-6">
+                    <a
+                      href="checkout_cart.html"
+                      class="btn btn-inverse btn-block"
+                      >Checkout</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="divider"></li>
+          
+            {% if user.is_authenticated %}
+            <li>
+              <a href='{% url "myaccount" %}'>
+                <img src="{% static 'img/user-1.jpg' %}" class="user-img"alt="" />
+              </a>
+            </li>
+            <li>
+              <a href='{% url "logout" %}'>Logout</a>
+            </li>
+            {% else %}
+            <li>
+              <a href='{% url "login" %}'>Login/Register</a>
+            </li>
+            {% endif %}
+          
+        </ul>
+      </div>
+      <!-- END header-nav -->
+    </div>
+    <!-- END header-container -->
+  </div>
+  <!-- END container -->
+</div>
+<!-- END #header -->
+
+{% endblock header %}

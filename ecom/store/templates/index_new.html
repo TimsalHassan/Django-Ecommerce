@@ -1,0 +1,425 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<!-- BEGIN #page-container -->
+<div id="page-container" class="fade">
+  <!-- BEGIN #slider -->
+  <div id="slider" class="section-container p-0 bg-black-darker">
+    <div id="main-carousel" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+
+        {% for product in featured_products %}
+          <div class="item {% if forloop.first %}active{% endif %}">
+            
+            <!-- Background Image -->
+            <img src="{{ product.slider_image.url|default:product.image.url }}"
+                class="bg-cover-img" alt="{{ product.name }}" />
+
+            <div class="container">
+              <img src="{{ product.image.url }}"
+                  class="product-img right bottom fadeInRight animated" alt="{{ product.name }}" />
+            </div>
+
+            <div class="carousel-caption carousel-caption-left">
+              <div class="container">
+                <h3 class="title m-b-5 fadeInLeftBig animated">{{ product.name }}</h3>
+                <p class="m-b-15 fadeInLeftBig animated">{{ product.description|truncatechars:80 }}</p>
+                <div class="price m-b-30 fadeInLeftBig animated">
+                  <small>from</small>
+                  <span>${{ product.price }}</span>
+                </div>
+
+                <a href="{% url 'product_detail' product.id %}"
+                  class="btn btn-outline btn-lg fadeInLeftBig animated">
+                  Buy Now
+                </a>
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <a class="left carousel-control" href="#main-carousel" data-slide="prev">
+        <i class="fa fa-angle-left"></i>
+      </a>
+      <a class="right carousel-control" href="#main-carousel" data-slide="next">
+        <i class="fa fa-angle-right"></i>
+      </a>
+    </div>
+  </div>
+
+
+  <!-- BEGIN #promotions -->
+  <div id="promotions" class="section-container bg-white">
+    <!-- BEGIN container -->
+    <div class="container">
+      <!-- BEGIN section-title -->
+      <h4 class="section-title clearfix">
+        <a href="#" class="pull-right">SHOW ALL</a>
+        Exclusive promotions
+        <small>Special offers on featured products</small>
+      </h4>
+      <!-- END section-title -->
+      <!-- BEGIN row -->
+      <div class="row row-space-10">
+        {% if promotional_products %}
+          {% for product in promotional_products %}
+            {% if forloop.first %}
+              <!-- First item - Large promotion (col-md-6) -->
+              <div class="col-md-6">
+                <div class="promotion promotion-lg {{ product.promotion_theme|default:'bg-black-darker' }}">
+                  <div class="promotion-image text-right promotion-image-overflow-bottom">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                  </div>
+                  <div class="promotion-caption promotion-caption-inverse">
+                    <h4 class="promotion-title">{{ product.name }}</h4>
+                    {% if product.is_discounted %}
+                      <div class="promotion-price"><small>from</small> ${{ product.discount_price }}</div>
+                      <div style="text-decoration: line-through; color: #999;">Was ${{ product.price }}</div>
+                    {% else %}
+                      <div class="promotion-price"><small>from</small> ${{ product.price }}</div>
+                    {% endif %}
+                    <p class="promotion-desc">{{ product.subtitle|default:product.description|truncatewords:15 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
+                  </div>
+                </div>
+              </div>
+            {% elif forloop.counter == 2 %}
+              <!-- Start col-md-3 col-sm-6 for item 2 -->
+              <div class="col-md-3 col-sm-6">
+                <div class="promotion {{ product.promotion_theme|default:'bg-blue' }}">
+                  <div class="promotion-image text-center promotion-image-overflow-bottom">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                  </div>
+                  <div class="promotion-caption {% if product.promotion_theme == 'bg-blue' %}promotion-caption-inverse text-right{% else %}text-center{% endif %}">
+                    <h4 class="promotion-title">{{ product.name }}</h4>
+                    {% if product.is_discounted %}
+                      <div class="promotion-price"><small>from</small> ${{ product.discount_price }}</div>
+                    {% else %}
+                      <div class="promotion-price"><small>from</small> ${{ product.price }}</div>
+                    {% endif %}
+                    <p class="promotion-desc">{{ product.subtitle|default:product.description|truncatewords:10 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
+                  </div>
+                </div>
+            {% elif forloop.counter == 3 %}
+                <div class="promotion {{ product.promotion_theme|default:'bg-silver' }}">
+                  <div class="promotion-image text-center promotion-image-overflow-bottom">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                  </div>
+                  <div class="promotion-caption text-center">
+                    <h4 class="promotion-title">{{ product.name }}</h4>
+                    {% if product.is_discounted %}
+                      <div class="promotion-price"><small>from</small> ${{ product.discount_price }}</div>
+                    {% else %}
+                      <div class="promotion-price"><small>from</small> ${{ product.price }}</div>
+                    {% endif %}
+                    <p class="promotion-desc">{{ product.subtitle|default:product.description|truncatewords:10 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
+                  </div>
+                </div>
+              </div>
+            {% elif forloop.counter == 4 %}
+              <!-- Start col-md-3 col-sm-6 for item 4 -->
+              <div class="col-md-3 col-sm-6">
+                <div class="promotion {{ product.promotion_theme|default:'bg-silver' }}">
+                  <div class="promotion-image text-center promotion-image-overflow-bottom">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                  </div>
+                  <div class="promotion-caption text-center">
+                    <h4 class="promotion-title">{{ product.name }}</h4>
+                    {% if product.is_discounted %}
+                      <div class="promotion-price"><small>from</small> ${{ product.discount_price }}</div>
+                    {% else %}
+                      <div class="promotion-price"><small>from</small> ${{ product.price }}</div>
+                    {% endif %}
+                    <p class="promotion-desc">{{ product.subtitle|default:product.description|truncatewords:10 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
+                  </div>
+                </div>
+            {% elif forloop.counter >= 5 %}
+                <div class="promotion {{ product.promotion_theme|default:'bg-black' }}">
+                  <div class="promotion-image text-right">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                  </div>
+                  <div class="promotion-caption promotion-caption-inverse">
+                    <h4 class="promotion-title">{{ product.name }}</h4>
+                    {% if product.is_discounted %}
+                      <div class="promotion-price"><small>from</small> ${{ product.discount_price }}</div>
+                    {% else %}
+                      <div class="promotion-price"><small>from</small> ${{ product.price }}</div>
+                    {% endif %}
+                    <p class="promotion-desc">{{ product.subtitle|default:product.description|truncatewords:10 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p class="text-center">No promotional products available at the moment.</p>
+          </div>
+        {% endif %}
+      </div>
+      <!-- END row -->
+    </div>
+    <!-- END container -->
+  </div>
+  <!-- END #promotions -->
+
+  <!-- BEGIN #trending-items -->
+  <div id="trending-items" class="section-container bg-silver">
+    <!-- BEGIN container -->
+    <div class="container">
+      <!-- BEGIN section-title -->
+      <h4 class="section-title clearfix">
+        <a href="#" class="pull-right m-l-5"
+          ><i class="fa fa-angle-right f-s-18"></i
+        ></a>
+        <a href="#" class="pull-right"
+          ><i class="fa fa-angle-left f-s-18"></i
+        ></a>
+        Trending Items
+        <small>Shop and get your favourite items at amazing prices!</small>
+      </h4>
+      <!-- END section-title -->
+
+      <!-- BEGIN row -->
+      <div class="row row-space-10">
+
+          {% for product in trending_products %}
+            <!-- BEGIN col-2 -->
+              <div class="col-md-2 col-sm-4">
+                <!-- BEGIN item -->
+                <div class="item item-thumbnail">
+                  <a href="{% url 'product_detail' product.id %}" class="item-image">
+                    <img src={{ product.image.url }} alt="" />
+                    <div class="discount">{{ product.discount }}% OFF</div>
+                  </a>
+                  <div class="item-info">
+                    <h4 class="item-title">
+                      <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                    </h4>
+                    <p class="item-title">{{ product.subtitle }}</p>
+                    <p class="item-desc">{{ product.description }}</p>
+                    {% if product.is_discounted %}
+                      <div class="item-price">${{ product.discount_price }}</div>
+                      <div class="item-discount-price">${{ product.price }}</div>
+                    {% else %}
+                      <div class="item-price">${{ product.price }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <!-- END item -->
+              </div>
+            <!-- END col-2 -->
+          {% endfor %}
+      </div>
+      <!-- END row -->
+    </div>
+    <!-- END container -->
+  </div>
+  <!-- END #trending-items -->
+
+  <!-- BEGIN #mobile-list -->
+  <div id="mobile-list" class="section-container bg-silver p-t-0">
+    <!-- BEGIN container -->
+    <div class="container">
+      <!-- BEGIN section-title -->
+      <h4 class="section-title clearfix">
+        <a href="#" class="pull-right">SHOW ALL</a>
+        Mobile Phones
+        <small>Shop and get your favourite phone at amazing prices!</small>
+      </h4>
+      <!-- END section-title -->
+      <!-- BEGIN category-container -->
+      <div class="category-container">
+        <!-- BEGIN category-sidebar -->
+        <div class="category-sidebar">
+          <ul class="category-list">
+            <li class="list-header">Top Categories</li>
+            {% comment %} {% for brand in mobile_brands %}
+            <li><a href="{% url 'brand_category' brand.slug %}">{{ brand.name }}</a></li>
+            {% endfor %} {% endcomment %}
+            {% for brand in mobile_brands %}
+              <li>
+                <a href="{% url 'brand_product' brand.slug %}">
+                  {{ brand.name }}
+                </a>
+              </li>
+            {% empty %}
+              <li>No brands found</li>
+            {% endfor %}
+            <li><a href="">All Brands</a></li>
+          </ul>
+        </div>
+        <!-- END category-sidebar -->
+        <!-- BEGIN category-detail -->
+        <div class="category-detail">
+          <!-- BEGIN category-item -->
+          <a href="#" class="category-item full">
+            <div class="item">
+              <div class="item-cover">
+                <img src={% static "img/samsung-s7-edge.jpg" %} alt="" />
+              </div>
+              <div class="item-info bottom">
+                <h4 class="item-title">
+                  Samsung Galaxy s7 Edge + Geat 360 + Gear VR
+                </h4>
+                <p class="item-desc">Redefine what a phone can do</p>
+                <div class="item-price">$799.00</div>
+              </div>
+            </div>
+          </a>
+          <!-- END category-item -->
+          <!-- BEGIN category-item -->
+          <div class="category-item list">
+            <!-- BEGIN item-row -->
+            <div class="item-row">
+
+              <div class="item-row">
+                {% for product in mobile_products %}
+                  <div class="item item-thumbnail">
+                    <a href="{% url 'product_detail' product.id %}" class="item-image">
+                      {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                      {% endif %}
+                      {% if product.is_discounted %}
+                        <div class="discount">{{ product.discount }}% OFF</div>
+                      {% endif %}
+                    </a>
+                    <div class="item-info">
+                      <h4 class="item-title">
+                        <a href="{% url 'product_detail' product.id %}">
+                          {{ product.name }}<br>{{ product.subtitle }}
+                        </a>
+                      </h4>
+                      <p class="item-desc">
+                        {{ product.description|truncatechars:80 }}
+                      </p>
+                      {% if product.is_discounted %}
+                      <div class="item-price">${{ product.discount_price }}</div>
+                      <div class="item-discount-price">${{ product.price }}</div>
+                    {% else %}
+                      <div class="item-price">${{ product.price }}</div>
+                    {% endif %}
+                    </div>
+                  </div>
+                {% empty %}
+                  <p>No products found.</p>
+                {% endfor %}
+              </div>
+              <!-- END item -->
+            </div>
+            <!-- END item-row -->
+          </div>
+          <!-- END category-item -->
+        </div>
+        <!-- END category-detail -->
+      </div>
+      <!-- END category-container -->
+    </div>
+    <!-- END container -->
+  </div>
+  <!-- END #mobile-list -->
+
+  <!-- BEGIN #tablet-list -->
+  <div id="tablet-list" class="section-container bg-silver p-t-0">
+    <!-- BEGIN container -->
+    <div class="container">
+      <!-- BEGIN section-title -->
+      <h4 class="section-title clearfix">
+        <a href="#" class="pull-right">SHOW ALL</a>
+        Tablet
+        <small>Shop and get your favourite tablet at amazing prices!</small>
+      </h4>
+      <!-- END section-title -->
+      <!-- BEGIN category-container -->
+      <div class="category-container">
+        <!-- BEGIN category-sidebar -->
+        <div class="category-sidebar">
+          <ul class="category-list">
+            <li class="list-header">Top Categories</li>
+            {% comment %} {% for brand in brands %}
+            <li><a href="{% url 'brand_category' brand.slug %}">{{ brand.name }}</a></li>
+            {% endfor %} {% endcomment %}
+            {% for brand in tablet_brands %}
+              <li>
+                <a href="{% url 'brand_product' brand.slug %}">
+                  {{ brand.name }}
+                </a>
+              </li>
+            {% empty %}
+              <li>No brands found</li>
+            {% endfor %}
+            <li><a href="">All Brands</a></li>
+          </ul>
+        </div>
+        <!-- END category-sidebar -->
+        <!-- BEGIN category-detail -->
+        <div class="category-detail">
+          <!-- BEGIN category-item -->
+          <a href="#" class="category-item full">
+            <div class="item">
+              <div class="item-cover">
+                <img src={% static "img/huawei-mediapad.jpg" %} alt="" />
+              </div>
+              <div class="item-info bottom">
+                <h4 class="item-title">Huawei MediaPad T1 7.0</h4>
+                <p class="item-desc">Vibrant colors. Beautifully displayed</p>
+                <div class="item-price">$299.00</div>
+              </div>
+            </div>
+          </a>
+          <!-- END category-item -->
+          <!-- BEGIN category-item -->
+          <div class="category-item list">
+            <!-- BEGIN item-row -->
+            <div class="item-row">
+              <!-- BEGIN item -->
+                <div class="item-row">
+                {% for product in tablet_products %}
+                    <div class="item item-thumbnail">
+                      <a href="{% url 'product_detail' product.id %}" class="item-image">
+                        {% if product.image %}
+                          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% endif %}
+                        {% if product.is_discounted %}
+                          <div class="discount">{{ product.discount }}% OFF</div>
+                        {% endif %}
+                      </a>
+                      <div class="item-info">
+                        <h4 class="item-title">
+                          <a href="{% url 'product_detail' product.id %}">
+                            {{ product.name }}<br>{{ product.subtitle }}</a>
+                        </h4>
+                        <p class="item-desc">{{ product.description|truncatechars:80 }}</p>
+                        {% if product.is_discounted %}
+                          <div class="item-price">${{ product.discount_price }}</div>
+                          <div class="item-discount-price">${{ product.price }}</div>
+                        {% else %}
+                          <div class="item-price">${{ product.price }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% empty %}
+                    <p>No products found.</p>
+                  {% endfor %}
+                </div>
+              <!-- END item -->
+            </div>
+            <!-- END item-row -->
+          </div>
+          <!-- END category-item -->
+        </div>
+        <!-- END category-detail -->
+      </div>
+      <!-- END category-container -->
+    </div>
+    <!-- END container -->
+  </div>
+  <!-- END #tablet-list -->
+
+  
+{% endblock content %}
