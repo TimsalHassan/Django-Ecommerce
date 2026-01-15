@@ -15,13 +15,8 @@
           />
 
           <div class="container">
-            <img
-              src="{{ product.image.url }}"
-              class="product-img right bottom fadeInRight animated"
-              alt="{{ product.name }}"
-            />
+            <img src="{{ product.image.url }}"class="product-img right bottom fadeInRight animated" alt="{{ product.name }}"/>
           </div>
-
           <div class="carousel-caption carousel-caption-left">
             <div class="container">
               <h3 class="title m-b-5 fadeInLeftBig animated">
@@ -90,8 +85,7 @@
                 <small>from</small> ${{ product.price }}
               </div>
               <p class="promotion-desc">
-                {{ product.subtitle|default:product.description|truncatewords:20
-                }}
+                {{ product.subtitle|default:product.description|truncatewords:20 }}
               </p>
               <a
                 href="{% url 'product_detail' product.id %}"
@@ -120,7 +114,7 @@
               <div class="promotion-price">
                 <small>from</small> ${{ product.price }}
               </div>
-              <p class="promotion-desc">{{ product.subtitle }}</p>
+              <p class="promotion-desc">{{ product.description }}</p>
               <a
                 href="{% url 'product_detail' product.id %}"
                 class="promotion-btn"
@@ -129,13 +123,10 @@
             </div>
           </div>
           <!-- END promotion -->
+          {% elif forloop.counter == 3 %}
           <!-- BEGIN promotion -->
-          <div
-            class="promotion {{ product.promotion_theme|default:'bg-silver' }}"
-          >
-            <div
-              class="promotion-image text-center promotion-image-overflow-bottom"
-            >
+          <div class="promotion {{ product.promotion_theme|default:'bg-silver' }}">
+            <div class="promotion-image text-center promotion-image-overflow-bottom">
               <img src="{{ product.image.url }}" alt="{{ product.name }}" />
             </div>
             <div class="promotion-caption text-center">
@@ -154,7 +145,7 @@
           <!-- END promotion -->
         </div>
         <!-- END col-3 -->
-        {% elif forloop.counter == 3 %}
+        {% elif forloop.counter == 4 %}
         <!-- BEGIN col-3 -->
         <div class="col-md-3 col-sm-6">
           <!-- BEGIN promotion -->
@@ -172,8 +163,7 @@
                 <small>from</small> ${{ product.price }}
               </div>
               <p class="promotion-desc">
-                {{ product.subtitle|default:product.description|truncatewords:10
-                }}
+                {{ product.subtitle|default:product.description|truncatewords:10 }}
               </p>
               <a
                 href="{% url 'product_detail' product.id %}"
@@ -183,10 +173,9 @@
             </div>
           </div>
           <!-- END promotion -->
+          {% elif forloop.counter == 5 %}
           <!-- BEGIN promotion -->
-          <div
-            class="promotion {{ product.promotion_theme|default:'bg-black' }}"
-          >
+          <div class="promotion {{ product.promotion_theme|default:'bg-black' }}">
             <div class="promotion-image text-right">
               <img src="{{ product.image.url }}" alt="{{ product.name }}" />
             </div>
@@ -196,20 +185,17 @@
                 <small>from</small> ${{ product.price }}
               </div>
               <p class="promotion-desc">
-                {{ product.subtitle|default:product.description|truncatewords:10
-                }}
+                {{ product.subtitle|default:product.description|truncatewords:10 }}
               </p>
-              <a
-                href="{% url 'product_detail' product.id %}"
-                class="promotion-btn"
-                >View More</a
-              >
+              <a href="{% url 'product_detail' product.id %}" class="promotion-btn">View More</a>
             </div>
           </div>
           <!-- END promotion -->
         </div>
         <!-- END col-3 -->
-        {% endif %} {% endfor %} {% else %}
+        {% endif %}
+        {% endfor %} 
+        {% else %}
         <div class="col-md-12">
           <p class="text-center">No promotional products available.</p>
         </div>
@@ -246,16 +232,11 @@
           <!-- BEGIN item -->
           <div class="item item-thumbnail">
             <a href="{% url 'product_detail' product.id %}" class="item-image">
-              <img src="{{" product.image.url }} alt="" />
+              <img src={{ product.image.url }} alt="" />
               <div class="discount">{{ product.discount }}% OFF</div>
             </a>
             <div class="item-info">
-              <h4 class="item-title">
-                <a href="{% url 'product_detail' product.id %}"
-                  >{{ product.name }}</a
-                >
-              </h4>
-              <p class="item-title">{{ product.subtitle }}</p>
+              <h4 class="item-title"><a href="{% url 'product_detail' product.id %}">{{ product.name }}<br>{{ product.subtitle }}</a></h4>
               <p class="item-desc">{{ product.description }}</p>
               {% if product.is_discounted %}
               <div class="item-price">${{ product.discount_price }}</div>
@@ -282,7 +263,7 @@
     <div class="container">
       <!-- BEGIN section-title -->
       <h4 class="section-title clearfix">
-        <a href="#" class="pull-right">SHOW ALL</a>
+        <a href="{% url 'category_product' mobile_category.slug %}" class="pull-right">SHOW ALL</a>
         Mobile Phones
         <small>Shop and get your favourite phone at amazing prices!</small>
       </h4>
@@ -308,7 +289,7 @@
             {% empty %}
             <li>No brands found</li>
             {% endfor %}
-            <li><a href="">All Brands</a></li>
+            <li><a href="{% url 'brand_summary' %}">All Brands</a></li>
           </ul>
         </div>
         <!-- END category-sidebar -->
@@ -391,7 +372,7 @@
     <div class="container">
       <!-- BEGIN section-title -->
       <h4 class="section-title clearfix">
-        <a href="#" class="pull-right">SHOW ALL</a>
+        <a href="{% url 'category_product' tablet_category.slug %}" class="pull-right">SHOW ALL</a>
         Tablet
         <small>Shop and get your favourite tablet at amazing prices!</small>
       </h4>
@@ -417,7 +398,7 @@
             {% empty %}
             <li>No brands found</li>
             {% endfor %}
-            <li><a href="">All Brands</a></li>
+            <li><a href="{% url 'brand_summary' %}">All Brands</a></li>
           </ul>
         </div>
         <!-- END category-sidebar -->

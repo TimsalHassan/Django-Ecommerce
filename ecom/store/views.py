@@ -47,15 +47,13 @@ def home(request):
 
     # Trending products (first 6)
     trending_products = Product.objects.filter(is_trending=True, is_active=True)[:6]
-
     # Featured products (first 3)
     featured_products = Product.objects.filter(is_featured=True, is_active=True)[:3]
-
     # Promotional products (all active)
     promotional_products = Product.objects.filter(is_promotional=True, is_active=True)
 
     return render(request, 'index.html', {
-        'category': category,
+        
         'category_products': category_products,
         'trending_products': trending_products,
         'featured_products': featured_products,

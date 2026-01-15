@@ -48,6 +48,7 @@
                       {% for category in categories %}
                       <li><a href="{% url 'category_product' category.slug %}">{{ category.name }}</a></li>
                       {% endfor %}
+                      <li><a href="{% url 'category_summary' %}">All Categories</a></li>
                     </ul>
                   </div>
                   <!-- END dropdown-menu-sidebar -->
@@ -57,46 +58,11 @@
                     <div class="row">
                       <div class="col-md-3">
                         <ul class="dropdown-menu-list">
-                          <li>
-                            <a href="product_detail.html"
-                              ><i
-                                class="fa fa-fw fa-angle-right text-muted"
-                              ></i>
-                              iPhone 7</a
-                            >
-                          </li>
-                          <li>
-                            <a href="product_detail.html"
-                              ><i
-                                class="fa fa-fw fa-angle-right text-muted"
-                              ></i>
-                              iPhone 6s</a
-                            >
-                          </li>
-                          <li>
-                            <a href="product_detail.html"
-                              ><i
-                                class="fa fa-fw fa-angle-right text-muted"
-                              ></i>
-                              iPhone 6</a
-                            >
-                          </li>
-                          <li>
-                            <a href="product_detail.html"
-                              ><i
-                                class="fa fa-fw fa-angle-right text-muted"
-                              ></i>
-                              iPhone 5s</a
-                            >
-                          </li>
-                          <li>
-                            <a href="product_detail.html"
-                              ><i
-                                class="fa fa-fw fa-angle-right text-muted"
-                              ></i>
-                              iPhone 5</a
-                            >
-                          </li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>iPhone 7</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>iPhone 6s</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>iPhone 6</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>iPhone 5s</a></li>
+                          <li><a href="product_detail.html"><iclass="fa fa-fw fa-angle-right text-muted"></i>iPhone 5</a></li>
                         </ul>
                       </div>
                       <div class="col-md-3">
@@ -129,6 +95,7 @@
                     </div>
                     <h4 class="title">Shop By Brand</h4>
                     <ul class="dropdown-brand-list m-b-0">
+                      <li><a href="{% url 'brand_summary' %}">All Brands</a></li>
                       {% for brand in brands %}
                       <li>
                         <a href="{% url 'brand_product' brand.slug %}">
@@ -169,15 +136,15 @@
                 <li><a href="index_inverse_header.html">Home (Inverse Header)</a></li>
                 <li><a href='{% url "searchresults" %}'>Search Results</a></li>
                 <li><a href='{% url "product" %}'>Product Page</a></li>
-                <li><a href="product_detail.html">Product Details Page</a></li>
+                <li><a href="#">Product Details Page</a></li>
                 <li><a href="checkout_cart.html">Checkout Cart</a></li>
                 <li><a href="checkout_info.html">Checkout Shipping</a></li>
                 <li><a href="checkout_payment.html">Checkout Payment</a></li>
                 <li><a href="checkout_complete.html">Checkout Complete</a></li>
-                <li><a href='{% url "myaccount" %}'>My Account</a></li>
-                <li><a href='{% url "contactus" %}'>Contact Us</a></li>
-                <li><a href='{% url "aboutus" %}'>About Us</a></li>
-                <li><a href='{% url "faq" %}'>FAQ</a></li>
+                <li><a href="{% url 'myaccount' %}">My Account</a></li>
+                <li><a href="{% url "contactus" %}">Contact Us</a></li>
+                <li><a href="{% url "aboutus" %}">About Us</a></li>
+                <li><a href="{% url 'faq' %}">FAQ</a></li>
               </ul>
             </li>
             {% comment %} <li class="dropdown dropdown-hover"><a href="{% url 'category_summary' %}" data-toggle="dropdown">Categories<i class="fa fa-angle-down"></i><span class="arrow top"></span></a></li> {% endcomment %}

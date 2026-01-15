@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Product, Category, Brand
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -11,7 +12,12 @@ def category_product(request, slug):
 
 
 def category_summary(request):
-    return render(request, 'category_summary.html', {})
+    categories = Category.objects.all()
+    return render(request, 'category_summary.html', {"categories":categories})
+
+def brand_summary(request):
+    brands = Brand.objects.all()
+    return render(request, 'brand_summary.html', {"brands":brands})
 
 # def brand_category(request, slug):
 #     brand = get_object_or_404(Brand, slug=slug)
@@ -25,7 +31,15 @@ def brand_product(request, slug):
 
     
 def product(request):
-    return render(request, 'product.html')
+    product_list = Product.objects.filter(is_active=True).order_by('-created_at')
+    paginator = Paginator(product_list, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'products': page_obj,     
+        'page_obj': page_obj
+    }
+    return render(request, 'product.html', context)
 
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)

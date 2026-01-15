@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+
+<div id="page-header" class="section-container page-header-container bg-black">
+  <div class="page-header-cover">
+    <img src="{% static "assets/img/apple-cover.jpg" %}" alt="" />
+  </div>
+  <div class="container">
+    <h1 class="page-header">Products in {{ category.name }}</h1>
+  </div>
+</div>
 <div class="container">
-    <h2>Products in {{ category.name }}</h2>
-    <br><br>
     <div class="row">
         {% for product in products %}
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6" style="margin-top:20px;">
             <center>
             <div class="card mb-4 shadow-sm item item-thumbnail">
                 <img src="{{ product.image.url }}" class="item-image" alt="{{ product.name }}">
@@ -20,12 +27,15 @@
             </center>
         </div>
         {% empty %}
+        <br><br>
         <h4>No products found in this category.</h4>
+        <br><br><br><br><br>
+        <br><br><br><br><br>
+        <br><br><br><br><br>
         {% endfor %}
         
     </div>
 </div>
 
-<br><br>
-<br><br>
+
 {% endblock content %}

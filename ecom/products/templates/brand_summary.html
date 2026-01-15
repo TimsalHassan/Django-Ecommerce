@@ -10,25 +10,23 @@
   <!-- END page-header-cover -->
   <!-- BEGIN container -->
   <div class="container">
-    <h1 class="page-header"><b>Categories</b></h1>
+    <h1 class="page-header"><b>Brands</b></h1>
   </div>
   <!-- END container -->
 </div>
 <!-- BEGIN #page-header -->
 
 
-
     <div class="container">
-        <center>
+         <center>
         <br><br>
         <div class="row">
-            {% for category in categories %}
-                <h3><a href="{% url 'category_product' category.slug %}">
+            {% for brand in brands %}
+                <h3><a href="{% url 'brand_product' brand.slug %}">
                     
-                    {{ category }}</a></h3>
-                   
+                    {{ brand }}</a></h3>
+                    
             {% endfor %}
-            <br><br>
         </div>
         </center>
     </div>
