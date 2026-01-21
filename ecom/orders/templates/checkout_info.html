@@ -83,8 +83,8 @@
                         <!-- Your content here -->
                         {% for item in cart_items %}
                           {{ item.product.name }}
-                              {% if item.product.is_sale %}
-                                  ${{ item.product.sale_price }}
+                              {% if item.product.is_discounted %}
+                                  ${{ item.product.discount_price }}
                               {% else %}
                                   ${{ item.product.price }}
                               {% endif %}

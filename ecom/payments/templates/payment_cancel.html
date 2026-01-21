@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div><h1>Payment Canceled</h1></div>
+            <div class="alert alert-danger text-center" role="alert">
+                <h4 class="alert-heading">Payment Canceled</h4>
+                <p>Your payment was canceled or failed. Please try again.</p>
+                <hr>
+                <a href="{% url 'checkout_cart' %}" class="btn btn-primary">Return to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

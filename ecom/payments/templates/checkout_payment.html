@@ -73,6 +73,60 @@
               <!-- BEGIN checkout-body -->
               <div class="checkout-body container">
                 <div class="form-group row">
+                  <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-info item item-thumbnail">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">Order Summary</h4>
+                      </div>
+                      <div class="panel-body">
+                        <!-- Your content here -->
+                         {% for item in cart_items %}
+                          {{ item.product.name }}
+                              {% if item.product.is_discounted %}
+                                  ${{ item.product.discount_price }}
+                              {% else %}
+                                  ${{ item.product.price }}
+                              {% endif %}
+                              <br>
+                              <small>Quantity:
+                                {{ item.qty }}
+                              </small>
+                              <br><br>
+                          {% endfor %}
+                          Total: ${{ totals.total }}
+                          <br><br>
+                          <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline btn-secondary">Update Items</a>
+                      </div>
+                    </div>
+                    <br><br>
+                    <div class="panel panel-success item item-thumbnail">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">Shipping Info</h4>
+                      </div>
+                      <div class="panel-body">
+                        <!-- Your content here -->
+                        First Name: {{ shipping_info.first_name }}<br>
+                        Last Name: {{ shipping_info.last_name }}<br>
+                        Email: {{ shipping_info.email }}<br>
+                        company_name: {{ shipping_info.company_name }}<br>
+                        Phone: {{ shipping_info.primary_phone }}<br>
+                        Area Code: {{ shipping_info.area_code }}<br>
+                        Address : {{ shipping_info.address_1 }}<br>
+                         {{ shipping_info.address_2 }}<br>
+                        City: {{ shipping_info.city }}<br>
+                        State: {{ shipping_info.state }}<br>
+                        Zipcode: {{ shipping_info.zipcode }}<br>
+                        Country: {{ shipping_info.country }}<br>
+                        <br>
+                        <a href="{% url 'checkout_info' %}" class="btn btn-outline btn-secondary">Update Shipping</a>
+                      </div>
+                    </div>
+                  </div>
+                  <br><br>
+                </div>
+              </div>
+              <div class="checkout-body container">
+                <div class="form-group row">
                   <div class="panel panel-default">
                       <div class="panel-heading">
                         <h4 class="panel-title"><b>Choose a Payment Method</b></h4>
@@ -152,62 +206,6 @@
                   </div>
                 </div>
               </div>
-
-
-              <div class="checkout-body container">
-                <div class="form-group row">
-                  <div class="col-md-6 col-md-offset-3">
-                    <div class="panel panel-info item item-thumbnail">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">Order Summary</h4>
-                      </div>
-                      <div class="panel-body">
-                        <!-- Your content here -->
-                         {% for item in cart_items %}
-                          {{ item.product.name }}
-                              {% if item.product.is_sale %}
-                                  ${{ item.product.sale_price }}
-                              {% else %}
-                                  ${{ item.product.price }}
-                              {% endif %}
-                              <br>
-                              <small>Quantity:
-                                {{ item.qty }}
-                              </small>
-                              <br><br>
-                          {% endfor %}
-                          Total: ${{ totals.total }}
-                          <br><br>
-                          <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline btn-secondary">Update Items</a>
-                      </div>
-                    </div>
-                    <br><br>
-                    <div class="panel panel-success item item-thumbnail">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">Shipping Info</h4>
-                      </div>
-                      <div class="panel-body">
-                        <!-- Your content here -->
-                        First Name: {{ shipping_info.first_name }}<br>
-                        Last Name: {{ shipping_info.last_name }}<br>
-                        Email: {{ shipping_info.email }}<br>
-                        company_name: {{ shipping_info.company_name }}<br>
-                        Phone: {{ shipping_info.primary_phone }}<br>
-                        Area Code: {{ shipping_info.area_code }}<br>
-                        Address : {{ shipping_info.address_1 }}<br>
-                         {{ shipping_info.address_2 }}<br>
-                        City: {{ shipping_info.city }}<br>
-                        State: {{ shipping_info.state }}<br>
-                        Zipcode: {{ shipping_info.zipcode }}<br>
-                        Country: {{ shipping_info.country }}<br>
-                        <br>
-                        <a href="{% url 'checkout_info' %}" class="btn btn-outline btn-secondary">Update Shipping</a>
-                      </div>
-                    </div>
-                  </div>
-                  <br><br>
-                </div>
-              </div>
               <!-- END checkout-body -->
               <!-- BEGIN checkout-footer -->
               <div class="checkout-footer">
@@ -218,6 +216,10 @@
                 >
                 <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
                 >Proceed</button>
+                <a href="{% url 'stripe_checkout' %}" class="btn btn-success btn-lg">
+                    Pay with Card
+                </a>
+
               </div>
               <!-- END checkout-footer -->
             </form>

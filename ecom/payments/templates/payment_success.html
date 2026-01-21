@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="col-md-8">
+            <div><h1>Payment Successful</h1></div>
+            <div class="alert alert-success text-center" role="alert">
+                <h4 class="alert-heading">Payment Successful</h4>
+                <p>Thank you for your purchase! Your payment has been processed successfully.</p>
+                <hr>
+                <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

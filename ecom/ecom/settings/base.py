@@ -1,12 +1,17 @@
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_API_PUBLIC_KEY')
+STRIPE_API_SECRET_KEY = os.getenv('STRIPE_API_SECRET_KEY')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = 'django-insecure-3m#d_v4yp$=z_el*1^n8^(gwe0bseh+bavg-aelk69!n*oxj&8'
-
-DEBUG = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',

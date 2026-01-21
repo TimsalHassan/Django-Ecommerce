@@ -20,8 +20,8 @@
         <div class="header-logo">
           <a href='{% url "home" %}'>
             <span class="brand"></span>
-            <span>Color</span>Admin
-            <small>e-commerce frontend theme</small>
+            <span>Pasha</span>Admin
+            <small>e-commerce django project</small>
           </a>
         </div>
       </div>
@@ -136,7 +136,6 @@
                 <li><a href="index_inverse_header.html">Home (Inverse Header)</a></li>
                 <li><a href="{% url 'search_results' %}">Search Results</a></li>
                 <li><a href="{% url 'product' %}">Product Page</a></li>
-                <li><a href="#">Product Details Page</a></li>
                 <li><a href="{% url 'checkout_cart' %}">Checkout Cart</a></li>
                 <li><a href="{% url 'checkout_info' %}">Checkout Shipping</a></li>
                 <li><a href="{% url 'checkout_payment' %}">Checkout Payment</a></li>
@@ -147,7 +146,6 @@
                 <li><a href="{% url 'faq' %}">FAQ</a></li>
               </ul>
             </li>
-            {% comment %} <li class="dropdown dropdown-hover"><a href="{% url 'category_summary' %}" data-toggle="dropdown">Categories<i class="fa fa-angle-down"></i><span class="arrow top"></span></a></li> {% endcomment %}
             <li class="dropdown dropdown-hover"><a href="#" data-toggle="dropdown"><i class="fa fa-search search-btn"></i><span class="arrow top"></span></a>
               <div class="dropdown-menu p-15">
                 <form action="{% url 'search_results' %}" method="GET" name="search_form">

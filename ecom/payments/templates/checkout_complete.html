@@ -7,11 +7,6 @@
         <div class="container">
           <!-- BEGIN checkout -->
           <div class="checkout">
-            <form
-              action="checkout_info.html"
-              method="POST"
-              name="form_checkout"
-            >
               <!-- BEGIN checkout-header -->
               <div class="checkout-header">
                 <!-- BEGIN row -->
@@ -73,79 +68,83 @@
               </div>
               <!-- END checkout-header -->
               <!-- BEGIN checkout-body -->
+
               <div class="checkout-body">
-                <!-- BEGIN checkout-message -->
+                <div class="alert alert-success text-center" role="alert">
+                    <h4 class="alert-heading">Payment Successful</h4>
+                    <p>Thank you for your purchase! Your payment has been processed successfully.</p>
+                    <hr>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+                </div>
                 <div class="checkout-message">
                   <h1>
                     Thank you!
-                    <small
-                      >Your Payment has been successfully processed with the
-                      following details.</small
-                    >
+                    <small>Your payment has been successfully processed.</small>
                   </h1>
+
                   <div class="table-responsive2">
                     <table class="table table-payment-summary">
                       <tbody>
                         <tr>
                           <td class="field">Transaction Status</td>
-                          <td class="value">Success</td>
+                          <td class="value text-success">Success</td>
                         </tr>
                         <tr>
                           <td class="field">Transaction Reference No.</td>
-                          <td class="value">REF000001</td>
+                          <td class="value">{{ transaction_ref }}</td>
                         </tr>
                         <tr>
                           <td class="field">Bank Authorised Code</td>
-                          <td class="value">AUTH000001</td>
+                          <td class="value">{{ auth_code }}</td>
                         </tr>
                         <tr>
-                          <td class="field">Transaction Date and Time</td>
-                          <td class="value">05 APR 2016 07:30PM</td>
+                          <td class="field">Transaction Date & Time</td>
+                          <td class="value">
+                            {{ order.created_at|date:"d M Y, h:i A" }}
+                          </td>
                         </tr>
                         <tr>
                           <td class="field">Orders</td>
                           <td class="value product-summary">
-                            <div class="product-summary-img">
-                              <img src="assets/img/iphone-6s-plus.png" alt="" />
-                            </div>
-                            <div class="product-summary-info">
-                              <div class="title">
-                                iPhone 6s Plus 16GB (Silver)
+                            {% for item in order_items %}
+                              <div class="d-flex mb-3">
+                                <div class="product-summary-img">
+                                  {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                  {% endif %}
+                                </div>
+                                <div class="product-summary-info">
+                                  <div class="title">
+                                    {{ item.product.name }}
+                                  </div>
+                                  <div class="desc">
+                                    Qty: {{ item.quantity }} × ${{ item.price }}
+                                  </div>
+                                </div>
                               </div>
-                              <div class="desc">
-                                Delivers Tue 26/04/2016 - Free
-                              </div>
-                            </div>
+                            {% endfor %}
                           </td>
                         </tr>
                         <tr>
-                          <td class="field">Payment Amount (RM)</td>
-                          <td class="value">$999.00</td>
+                          <td class="field">Payment Amount</td>
+                          <td class="value">
+                            <strong>${{ order.amount_paid }}</strong>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <p class="text-muted text-center m-b-0">
-                    Should you require any assistance, you can get in touch with
-                    Support Team at (123) 456-7890
+                    Need help? Contact our support team.
                   </p>
                 </div>
-                <!-- END checkout-message -->
               </div>
-              <!-- END checkout-body -->
-              <!-- BEGIN checkout-footer -->
               <div class="checkout-footer text-center">
-                <a
-                  href="{% url 'manage_orders' %}"
-                  class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10"
-                >
+                <a href="{% url 'manage_orders' %}" class="btn btn-white btn-lg">
                   Manage Orders
                 </a>
               </div>
-              <!-- END checkout-footer -->
-            </form>
-          </div>
-          <!-- END checkout -->
+              <br><br><br>
         </div>
         <!-- END container -->
       </div>
