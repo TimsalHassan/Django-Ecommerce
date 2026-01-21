@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+        <!-- BEGIN #register-cover -->
+        <div id="update-info-cover" class="has-bg section-container">
+            <!-- BEGIN cover-bg -->
+            <div class="cover-bg">
+                <img src="{% static 'img/register-cover.jpg' %}" alt="" />
+            </div>
+            <!-- END cover-bg -->
+
+            <!-- BEGIN container -->
+            <div class="container">
+                <!-- BEGIN breadcrumb -->
+                <ul class="breadcrumb m-b-10 f-s-12">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="active">Update Info</li>
+                </ul>
+                <!-- END breadcrumb -->
+
+                <!-- BEGIN Header -->
+                <header class="bg-dark py-5">
+                    <div class="container px-4 px-lg-5 my-5">
+                        <div class="text-center text-white">
+                            <h1 class="display-4 fw-bolder">Update Info</h1>
+                            <p class="lead fw-normal text-white-50 mb-0">Update User Info ...</p>
+                        </div>
+                    </div>
+                </header>
+                <!-- END Header -->
+            </div>  
+            <!-- END container -->
+        </div>
+        <!-- END #register-cover --> 
+
+        <br><br><br>
+
+        <div class="container">
+            <!-- BEGIN register -->
+            <div class="register text-center col-md-4 col-md-offset-4">
+                    <strong>Billing Information</strong>
+                    <br><br>
+                <form action="{% url 'update_info' %}" method="post" class="update-info-form">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+                    <br><br>
+                <strong>Shipping Information</strong>
+                <br><br>
+                {{ shipping_form.as_p }}
+                
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Update Info</button>
+                </form>
+                
+                <br><br><br>
+                <br><br><br>
+            </div>
+        </div>
+
+{% endblock %}

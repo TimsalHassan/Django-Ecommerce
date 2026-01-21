@@ -7,10 +7,26 @@ from django.contrib import messages
 # Create your views here.
 def cart_summary(request):
     cart = Cart(request)
-    cart_products = cart.get_products
-    quantities = cart.get_quantities
-    totals = cart.cart_total
+    cart_products = cart.get_items()
+    quantities = cart.get_quantities()
+    totals = cart.cart_total()
     return render(request, 'cart_summary.html', {'cart_products': cart_products, "quantities":quantities, "totals":totals})
+
+def checkout_cart(request):
+    cart = Cart(request)
+    totals = cart.cart_totals()
+    context = {
+        'cart_items': cart.get_items(),
+        'quantities': cart.get_quantities(),
+        'totals': totals
+    }
+    if request.user.is_authenticated:
+        #Check Out as Logged in user
+        return render(request, 'checkout_cart.html', context)
+    else:
+        # Cheak Out as Guest
+        return render(request, 'checkout_cart.html', context)
+
 
 def cart_add(request):
     # Get the Cart
@@ -36,24 +52,17 @@ def cart_add(request):
 
 def cart_update(request):
     cart = Cart(request)
+
     if request.POST.get('action') == 'post':
-        # Get Stuff
-        product_id = int(request.POST.get('product_id'))
-        product_qty = int(request.POST.get('product_qty'))
-        cart.update(product=product_id, quantity=product_qty)
-        response = JsonResponse({'qty': product_qty})
-        # return redirect('cart_summary')
-        messages.success(request, ("Your Cart Has Been Updated..."))
-        return response
+        cart.update(
+            product=request.POST.get('product_id'),
+            quantity=request.POST.get('product_qty')
+        )
+        return JsonResponse({'status': 'ok'})
 
 def cart_delete(request):
     cart = Cart(request)
+
     if request.POST.get('action') == 'post':
-        # Get Stuff
-        product_id = int(request.POST.get('product_id'))
-        # Call delete function in cart
-        cart.delete(product=product_id)
-        response = JsonResponse({'product': product_id})
-        # return redirect('cart_summary')
-        messages.success(request, ("Item Deleted From The Shopping Cart..."))
-        return response
+        cart.delete(product=request.POST.get('product_id'))
+        return JsonResponse({'status': 'ok'})

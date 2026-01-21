@@ -97,12 +97,28 @@ class FAQView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'FAQ'
         return context
+    
+class ContactUsView(TemplateView):
+    template_name = 'contact_us.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'ContactUs'
+        return context
 
-def contact_us(request):
-    return render(request, 'contact_us.html')
+class AboutUsView(TemplateView):
+    template_name = 'about_us.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'AboutUs'
+        return context
 
-def search_results(request):
-    return render(request, 'search_results.html')
+# def contact_us(request):
+#     return render(request, 'contact_us.html')
+
+# def search_results(request):
+#     return render(request, 'search_results.html')
 
 def my_account(request):
     return render(request, 'my_account.html')

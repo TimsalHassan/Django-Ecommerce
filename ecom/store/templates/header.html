@@ -128,31 +128,31 @@
                 <li><a href="{% url 'category_summary' %}">All Categories</a></li>
               </ul>
             </li>
-            <li><a href='{% url "product" %}'>New Arrival</a></li>
+            <li><a href="{% url 'new_arrival' %}">New Arrival</a></li>
             <li class="dropdown dropdown-hover"><a href="#" data-toggle="dropdown">Pages<i class="fa fa-angle-down"></i><span class="arrow top"></span></a>
               <ul class="dropdown-menu">
-                <li><a href='{% url "home" %}'>Home (Default)</a></li>
+                <li><a href="{% url 'home' %}">Home (Default)</a></li>
                 <li><a href="index_fixed_header.html">Home (Fixed Header)</a></li>
                 <li><a href="index_inverse_header.html">Home (Inverse Header)</a></li>
-                <li><a href='{% url "searchresults" %}'>Search Results</a></li>
-                <li><a href='{% url "product" %}'>Product Page</a></li>
+                <li><a href="{% url 'search_results' %}">Search Results</a></li>
+                <li><a href="{% url 'product' %}">Product Page</a></li>
                 <li><a href="#">Product Details Page</a></li>
-                <li><a href="checkout_cart.html">Checkout Cart</a></li>
-                <li><a href="checkout_info.html">Checkout Shipping</a></li>
-                <li><a href="checkout_payment.html">Checkout Payment</a></li>
-                <li><a href="checkout_complete.html">Checkout Complete</a></li>
+                <li><a href="{% url 'checkout_cart' %}">Checkout Cart</a></li>
+                <li><a href="{% url 'checkout_info' %}">Checkout Shipping</a></li>
+                <li><a href="{% url 'checkout_payment' %}">Checkout Payment</a></li>
+                <li><a href="{% url 'checkout_complete' %}">Checkout Complete</a></li>
                 <li><a href="{% url 'myaccount' %}">My Account</a></li>
-                <li><a href="{% url "contactus" %}">Contact Us</a></li>
-                <li><a href="{% url "aboutus" %}">About Us</a></li>
+                <li><a href="{% url "contact_us" %}">Contact Us</a></li>
+                <li><a href="{% url "about_us" %}">About Us</a></li>
                 <li><a href="{% url 'faq' %}">FAQ</a></li>
               </ul>
             </li>
             {% comment %} <li class="dropdown dropdown-hover"><a href="{% url 'category_summary' %}" data-toggle="dropdown">Categories<i class="fa fa-angle-down"></i><span class="arrow top"></span></a></li> {% endcomment %}
             <li class="dropdown dropdown-hover"><a href="#" data-toggle="dropdown"><i class="fa fa-search search-btn"></i><span class="arrow top"></span></a>
               <div class="dropdown-menu p-15">
-                <form action='{% url "searchresults" %}' method="POST"name="search_form">
+                <form action="{% url 'search_results' %}" method="GET" name="search_form">
                   <div class="input-group">
-                    <input type="text" placeholder="Search" class="form-control bg-silver-lighter"/>
+                    <input type="text" placeholder="Search Products" class="form-control bg-silver-lighter" name="searched"/>
                     <span class="input-group-btn"><button class="btn btn-inverse" type="submit"><i class="fa fa-search"></i></button></span>
                   </div>
                 </form>
@@ -180,7 +180,7 @@
                 <ul class="cart-item">
                   <li>
                     <div class="cart-item-image">
-                      <img src={% static "assets/img/ipad.jpg" %} alt="" />
+                      <img src={% static "img/ipad.jpg" %} alt="" />
                     </div>
                     <div class="cart-item-info">
                       <h4>iPad Pro Wi-Fi 128GB - Silver</h4>
@@ -194,7 +194,7 @@
                   </li>
                   <li>
                     <div class="cart-item-image">
-                      <img src={% static "assets/img/imac.jpg" %} alt="" />
+                      <img src={% static "img/imac.jpg" %} alt="" />
                     </div>
                     <div class="cart-item-info">
                       <h4>21.5-inch iMac</h4>
@@ -208,7 +208,7 @@
                   </li>
                   <li>
                     <div class="cart-item-image">
-                      <img src={% static "assets/img/iphone.png" %} alt="" />
+                      <img src={% static "img/iphone.png" %} alt="" />
                     </div>
                     <div class="cart-item-info">
                       <h4>iPhone 6s 16GB - Silver</h4>
@@ -233,7 +233,7 @@
                   </div>
                   <div class="col-xs-6">
                     <a
-                      href="checkout_cart.html"
+                      href="{% url 'checkout_cart' %}"
                       class="btn btn-inverse btn-block"
                       >Checkout</a
                     >

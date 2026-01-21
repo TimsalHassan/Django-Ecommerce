@@ -19,10 +19,10 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_cart.html">
+                      <a href="{% url 'checkout_cart' %}">
                         <div class="number">1</div>
                         <div class="info">
-                          <div class="title">Delivery Options</div>
+                          <div class="title">Order Summary</div>
                           <div class="desc">Lorem ipsum dolor sit amet.</div>
                         </div>
                       </a>
@@ -32,7 +32,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_info.html">
+                      <a href="{% url 'checkout_info' %}">
                         <div class="number">2</div>
                         <div class="info">
                           <div class="title">Shipping Address</div>
@@ -45,7 +45,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_payment.html">
+                      <a href="{% url 'checkout_payment' %}">
                         <div class="number">3</div>
                         <div class="info">
                           <div class="title">Payment</div>
@@ -58,7 +58,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step active">
-                      <a href="#">
+                      <a href="{% url 'checkout_complete' %}">
                         <div class="number">4</div>
                         <div class="info">
                           <div class="title">Complete Payment</div>
@@ -135,12 +135,12 @@
               <!-- END checkout-body -->
               <!-- BEGIN checkout-footer -->
               <div class="checkout-footer text-center">
-                <button
-                  type="submit"
+                <a
+                  href="{% url 'manage_orders' %}"
                   class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10"
                 >
                   Manage Orders
-                </button>
+                </a>
               </div>
               <!-- END checkout-footer -->
             </form>

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<!-- BEGIN #checkout-payment -->
+<div class="section-container" id="checkout-info">
+  <!-- BEGIN container -->
+  <div class="container">
+    <!-- BEGIN checkout -->
+    <div class="checkout">
+      <!-- BEGIN checkout-header -->
+      <div class="checkout-header">
+        <!-- (Your header code remains unchanged) -->
+      </div>
+      <!-- END checkout-header -->
+
+      <!-- BEGIN checkout-body -->
+      <div class="checkout-body container">
+        <div class="form-group row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-success item item-thumbnail">
+              <div class="panel-heading">
+                <h4 class="panel-title">Order Summary</h4>
+              </div>
+              <div class="panel-body">
+                <!-- (Your order summary code remains unchanged) -->
+              </div>
+            </div>
+
+            <div class="panel panel-info item item-thumbnail">
+              <div class="panel-heading">
+                <h4 class="panel-title">Shipping Info</h4>
+              </div>
+              <div class="panel-body">
+                <form method='POST' action="{% url 'checkout_payment' %}">
+                  {% csrf_token %}
+                  {{ shipping_form.as_p }}
+                  {{ shipping_form.errors }}
+                  <!-- Move the submit button INSIDE the form -->
+                  <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">Continue</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <div class="m-b-5"><b>Shipping Policy</b></div>
+      <ul class="checkout-info-list">
+        <li>Signature may be required for delivery</li>
+        <li>We do not ship to P.O. boxes</li>
+        <li>Delivery estimates below include item preparation and shipping time</li>
+        <li>We do not ship directly to APO/FPO addresses.</li>
+      </ul>
+      <!-- END checkout-body -->
+
+      <!-- BEGIN checkout-footer -->
+      <div class="checkout-footer">
+        <a href="{% url 'checkout_cart' %}" class="btn btn-white btn-lg pull-left">Back</a>
+        <!-- Remove the button from here since it's now inside the form -->
+      </div>
+      <!-- END checkout-footer -->
+    </div>
+    <!-- END checkout -->
+  </div>
+  <!-- END container -->
+</div>
+<!-- END #checkout-info -->
+{% endblock content %}

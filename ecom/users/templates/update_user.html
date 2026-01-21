@@ -2,50 +2,56 @@
 {% block content %}
 {% load static %}
         <!-- BEGIN #register-cover -->
-        <div id="register-cover" class="has-bg section-container">
+        <div id="update-user-cover" class="has-bg section-container">
             <!-- BEGIN cover-bg -->
             <div class="cover-bg">
-            <img src="{% static 'assets/img/register-cover.jpg' %}" alt="" />
+                <img src="{% static 'img/register-cover.jpg' %}" alt="" />
             </div>
             <!-- END cover-bg -->
+
             <!-- BEGIN container -->
             <div class="container">
-            <!-- BEGIN breadcrumb -->
-            <ul class="breadcrumb m-b-10 f-s-12">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li class="active">Update User</li>
-            </ul>
-            <!-- END breadcrumb -->
-
-            <!-- BEGIN register -->
-            <div class="register text-center col-md-4 col-md-offset-4">
-                <h1>Update Your Profile</h1>
-                <br><br>
-                <form action="{% url 'update_user' %}" method="post" class="update-user-form">
-                {% csrf_token %}
-
-                {{ user_form.as_p }}
-                {% comment %} {{ user_form.non_field_errors }}
-
-                {% for field in user_form %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <small class="text-danger">{{ field.errors }}</small>
+                <!-- BEGIN breadcrumb -->
+                <ul class="breadcrumb m-b-10 f-s-12">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="active">Update User</li>
+                </ul>
+                <!-- END breadcrumb -->
+                
+                <!-- BEGIN Header -->
+                <header class="bg-dark py-5">
+                    <div class="container px-4 px-lg-5 my-5">
+                        <div class="text-center text-white">
+                            <h1 class="display-4 fw-bolder">Update Info</h1>
+                            <p class="lead fw-normal text-white-50 mb-0">Update User Info ...</p>
+                        </div>
                     </div>
-                {% endfor %} {% endcomment %}
-                <br>
-                <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
-                </form>
-                <br><br>
-                <a href="{% url 'update_password' %}" class="btn btn-primary btn-block">Update Password</a>
-            </div>
-            <!-- END register -->
+                </header>
+                <!-- END Header -->
             </div>
             <!-- END container -->
-            <br><br><br>
-            <br><br><br>
         </div>  
         <!-- END #register-cover -->
+
+        <br><br><br>
+        <!-- BEGIN register -->
+        <div class="register text-center col-md-4 col-md-offset-4">
+            <br><br>
+            <form action="{% url 'update_user' %}" method="post" class="update-user-form">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            
+            <br>
+            <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+            </form>
+            <br><br>
+            <a href="{% url 'update_password' %}" class="btn btn-primary btn-block">Update Password</a>
+
+            <br><br><br>
+            <br><br><br>
+        </div>
+        <!-- END register -->
 
 {% endblock %}

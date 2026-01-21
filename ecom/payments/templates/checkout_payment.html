@@ -8,7 +8,8 @@
         <div class="container">
           <!-- BEGIN checkout -->
           <div class="checkout">
-            <form action="checkout_complete.html" method="POST" name="form_payment" class="form-horizontal">
+            <form action="{% url 'checkout_complete' %}" method="POST" name="form_payment" class="form-horizontal">
+              {% csrf_token %}
               <!-- BEGIN checkout-header -->
               <div class="checkout-header">
                 <!-- BEGIN row -->
@@ -16,10 +17,10 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_cart.html">
+                      <a href="{% url 'checkout_cart' %}">
                         <div class="number">1</div>
                         <div class="info">
-                          <div class="title">Delivery Options</div>
+                          <div class="title">Order Summary</div>
                           <div class="desc">Lorem ipsum dolor sit amet.</div>
                         </div>
                       </a>
@@ -29,7 +30,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_info.html">
+                      <a href="{% url 'checkout_info' %}">
                         <div class="number">2</div>
                         <div class="info">
                           <div class="title">Shipping Address</div>
@@ -42,7 +43,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step active">
-                      <a href="#">
+                      <a href="{% url 'checkout_payment' %}">
                         <div class="number">3</div>
                         <div class="info">
                           <div class="title">Payment</div>
@@ -55,7 +56,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_complete.html">
+                      <a href="{% url 'checkout_complete' %}">
                         <div class="number">4</div>
                         <div class="info">
                           <div class="title">Complete Payment</div>
@@ -70,160 +71,153 @@
               </div>
               <!-- END checkout-header -->
               <!-- BEGIN checkout-body -->
-              <div class="checkout-body">
-                <h4 class="checkout-title">Choose a payment method</h4>
-                <div class="form-group">
-                  <label class="col-md-4 control-label"
-                    >Cardholder Name <span class="text-danger">*</span></label
-                  >
-                  <div class="col-md-4">
-                    <input
-                      type="text"
-                      class="form-control required"
-                      name="cardholder"
-                      placeholder=""
-                    />
+              <div class="checkout-body container">
+                <div class="form-group row">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title"><b>Choose a Payment Method</b></h4>
+                      </div>
+                      <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Cardholder Name <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-4">
+                                {{ Billing_form.cardholder }}
+                                {{ Billing_form.cardholder.errors }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Card Number <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-4">
+                                {{ Billing_form.cardnumber }}
+                                {{ Billing_form.cardnumber.errors }}
+                            </div>
+                        </div>
+
+                        <!-- Payment Types -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Payment Types <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-8">
+                                {% comment %} <ul class="list-inline payment-type">
+                                    <li onclick="setPayment('paypal')"><i class="fa fa-cc-paypal"></i></li>
+                                    <li onclick="setPayment('visa')"><i class="fa fa-cc-visa"></i></li>
+                                    <li onclick="setPayment('mastercard')"><i class="fa fa-cc-mastercard"></i></li>
+                                    <li onclick="setPayment('discover')"><i class="fa fa-cc-discover"></i></li>
+                                </ul> {% endcomment %}
+                                {{ Billing_form.payment_type }}
+                                <ul class="list-inline payment-type">
+                                    <li><a href="#" data-click="set-payment" data-value="Paypal" data-payment="paypal" data-toggle="tooltip" data-title="Paypal" data-placement="top" data-trigger="hover"><i class="fa fa-cc-paypal"></i></a></li>
+                                    <li><a href="#" data-click="set-payment" data-value="Visa" data-payment="visa" data-toggle="tooltip" data-title="Visa" data-placement="top" data-trigger="hover"><i class="fa fa-cc-visa"></i></a></li>
+                                    <li><a href="#" data-click="set-payment" data-value="Master Card" data-payment="mastercard" data-toggle="tooltip" data-title="Master Card" data-placement="top" data-trigger="hover"><i class="fa fa-cc-mastercard"></i></a></li>
+                                    <li><a href="#" data-click="set-payment" data-value="Credit Card" data-payment="discover" data-toggle="tooltip" data-title="Credit Card" data-placement="top" data-trigger="hover"><i class="fa fa-cc-discover"></i></a></li>
+                                </ul>
+
+                                <input type="hidden" name="payment_type" id="payment_type">
+                            </div>
+                        </div>
+
+                        <!-- Expiry -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Expiration Date <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-xs-5">{{ Billing_form.mm }}</div>
+                                    <div class="col-xs-2 text-center">
+                                      <div class="text-muted p-t-5 m-t-2">/</div>
+                                    </div>
+                                    <div class="col-xs-5">{{ Billing_form.yy }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CVC -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                CVV <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-2">
+                                {{ Billing_form.cvv }}
+                                {{ Billing_form.cvv.errors }}
+                            </div>
+                        </div>
+                      </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-md-4 control-label"
-                    >Card Number <span class="text-danger">*</span></label
-                  >
-                  <div class="col-md-4">
-                    <input
-                      type="text"
-                      class="form-control required"
-                      name="cardnumber"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-4 control-label"
-                    >Payment Types <span class="text-danger">*</span></label
-                  >
-                  <div class="col-sm-8">
-                    <ul class="list-inline payment-type">
-                      <li class="active">
-                        <a
-                          href="#"
-                          data-click="set-payment"
-                          data-value="Paypal"
-                          data-toggle="tooltip"
-                          data-title="Paypal"
-                          data-placement="top"
-                          data-trigger="hover"
-                          ><i class="fa fa-cc-paypal"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          data-click="set-payment"
-                          data-value="Visa"
-                          data-toggle="tooltip"
-                          data-title="Visa"
-                          data-placement="top"
-                          data-trigger="hover"
-                          ><i class="fa fa-cc-visa"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          data-click="set-payment"
-                          data-value="Master Card"
-                          data-toggle="tooltip"
-                          data-title="Master Card"
-                          data-placement="top"
-                          data-trigger="hover"
-                          ><i class="fa fa-cc-mastercard"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          data-click="set-payment"
-                          data-value="Credit Card"
-                          data-toggle="tooltip"
-                          data-title="Credit Card"
-                          data-placement="top"
-                          data-trigger="hover"
-                          ><i class="fa fa-cc-discover"></i
-                        ></a>
-                      </li>
-                    </ul>
-                    <input
-                      type="hidden"
-                      name="payment_type"
-                      value=""
-                      data-id="payment-type"
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-4 control-label"
-                    >Expiration Date <span class="text-danger">*</span></label
-                  >
-                  <div class="col-md-8">
-                    <div class="width-100">
-                      <div class="row row-space-0">
-                        <div class="col-xs-5">
-                          <input
-                            type="text"
-                            name="mm"
-                            placeholder="MM"
-                            class="form-control required p-l-5 p-r-5 text-center"
-                          />
-                        </div>
-                        <div class="col-xs-2 text-center">
-                          <div class="text-muted p-t-5 m-t-2">/</div>
-                        </div>
-                        <div class="col-xs-5">
-                          <input
-                            type="text"
-                            name="yy"
-                            placeholder="YY"
-                            class="form-control required p-l-5 p-r-5 text-center"
-                          />
-                        </div>
+              </div>
+
+
+              <div class="checkout-body container">
+                <div class="form-group row">
+                  <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-info item item-thumbnail">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">Order Summary</h4>
+                      </div>
+                      <div class="panel-body">
+                        <!-- Your content here -->
+                         {% for item in cart_items %}
+                          {{ item.product.name }}
+                              {% if item.product.is_sale %}
+                                  ${{ item.product.sale_price }}
+                              {% else %}
+                                  ${{ item.product.price }}
+                              {% endif %}
+                              <br>
+                              <small>Quantity:
+                                {{ item.qty }}
+                              </small>
+                              <br><br>
+                          {% endfor %}
+                          Total: ${{ totals.total }}
+                          <br><br>
+                          <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline btn-secondary">Update Items</a>
+                      </div>
+                    </div>
+                    <br><br>
+                    <div class="panel panel-success item item-thumbnail">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">Shipping Info</h4>
+                      </div>
+                      <div class="panel-body">
+                        <!-- Your content here -->
+                        First Name: {{ shipping_info.first_name }}<br>
+                        Last Name: {{ shipping_info.last_name }}<br>
+                        Email: {{ shipping_info.email }}<br>
+                        company_name: {{ shipping_info.company_name }}<br>
+                        Phone: {{ shipping_info.primary_phone }}<br>
+                        Area Code: {{ shipping_info.area_code }}<br>
+                        Address : {{ shipping_info.address_1 }}<br>
+                         {{ shipping_info.address_2 }}<br>
+                        City: {{ shipping_info.city }}<br>
+                        State: {{ shipping_info.state }}<br>
+                        Zipcode: {{ shipping_info.zipcode }}<br>
+                        Country: {{ shipping_info.country }}<br>
+                        <br>
+                        <a href="{% url 'checkout_info' %}" class="btn btn-outline btn-secondary">Update Shipping</a>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-4 control-label"
-                    >CSC <span class="text-danger">*</span></label
-                  >
-                  <div class="col-md-8">
-                    <div class="width-100 pull-left m-r-10">
-                      <input
-                        type="text"
-                        name="number"
-                        placeholder=""
-                        class="form-control required p-l-5 p-r-5 text-center"
-                      />
-                    </div>
-                    <a href="#" class="text-muted f-s-12 pull-left m-t-5 p-t-2"
-                      ><i class="fa fa-question-circle"></i> What's this?</a
-                    >
-                  </div>
+                  <br><br>
                 </div>
               </div>
               <!-- END checkout-body -->
               <!-- BEGIN checkout-footer -->
               <div class="checkout-footer">
                 <a
-                  href="checkout_info.html"
+                  href="{% url 'checkout_info' %}"
                   class="btn btn-white btn-lg pull-left"
                   >Back</a
                 >
-                <button
-                  type="submit"
-                  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
-                >
-                  Proceed
-                </button>
+                <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
+                >Proceed</button>
               </div>
               <!-- END checkout-footer -->
             </form>
@@ -346,5 +340,25 @@
         <!-- END container -->
       </div>
       <!-- END #checkout-payment -->
+
+<script>
+document.querySelectorAll('.payment-type a').forEach(el => {
+    el.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // remove active from all
+        document.querySelectorAll('.payment-type li')
+            .forEach(li => li.classList.remove('active'));
+
+        // activate clicked
+        this.parentElement.classList.add('active');
+
+        // set hidden input
+        document.getElementById('payment_type').value =
+            this.dataset.payment;
+    });
+});
+</script>
+
 {% endblock content %}
       

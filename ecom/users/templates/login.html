@@ -5,20 +5,36 @@
         <div id="login-cover" class="has-bg section-container">
             <!-- BEGIN cover-bg -->
             <div class="cover-bg">
-            <img src={% static "assets/img/login-cover.jpg" %} alt="" />
+                <img src={% static "img/login-cover.jpg" %} alt="" />
             </div>
             <!-- END cover-bg -->
             <!-- BEGIN container -->
             <div class="container">
-            <!-- BEGIN breadcrumb -->
-            <ul class="breadcrumb m-b-10 f-s-12">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li class="active">Login</li>
-            </ul>
-            <!-- END breadcrumb -->
+                <!-- BEGIN breadcrumb -->
+                <ul class="breadcrumb m-b-10 f-s-12">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="active">Login</li>
+                </ul>
+                <!-- END breadcrumb -->
+                <header class="bg-dark py-5">
+                    <div class="container px-4 px-lg-5 my-5">
+                        <div class="text-center text-white">
+                            <h1 class="display-4 fw-bolder">Login</h1>
+                            <p class="lead fw-normal text-white-50 mb-0">Log In To Your Account ...</p>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <!-- END container -->
+            
+        </div>
+        <!-- END #login-cover -->
+        <br><br><br>
+        <div class="container">
             <!-- BEGIN login -->
             <div class="login text-center col-md-4 col-md-offset-4">
-                <h1>Login Your Account</h1>
+                {% comment %} <h1>Login Your Account</h1> {% endcomment %}
+                <br><br>
                 <form action='{% url "login" %}' method="post" class="login-form">
                 {% csrf_token %}
                 <div class="form-group">
@@ -34,11 +50,8 @@
                 </p>
             </div>
             <!-- END login -->
-            </div>
-            <!-- END container -->
-             <br><br><br>
-    <br><br><br>
-    <br><br>
         </div>
-        <!-- END #login-cover -->
+        <br><br><br>
+        <br><br><br>
+        <br><br><br>
 {% endblock %}

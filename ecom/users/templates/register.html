@@ -5,22 +5,50 @@
         <div id="register-cover" class="has-bg section-container">
             <!-- BEGIN cover-bg -->
             <div class="cover-bg">
-            <img src="{% static 'assets/img/register-cover.jpg' %}" alt="" />
+            <img src="{% static 'img/register-cover.jpg' %}" alt="" />
             </div>
             <!-- END cover-bg -->
             <!-- BEGIN container -->
             <div class="container">
-            <!-- BEGIN breadcrumb -->
-            <ul class="breadcrumb m-b-10 f-s-12">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li class="active">Register</li>
-            </ul>
-            <!-- END breadcrumb -->
+                <!-- BEGIN breadcrumb -->
+                <ul class="breadcrumb m-b-10 f-s-12">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="active">Register</li>
+                </ul>
+                <!-- END breadcrumb -->
+                <header class="bg-dark py-5">
+                    <div class="container px-4 px-lg-5 my-5">
+                        <div class="text-center text-white">
+                            <h1 class="display-4 fw-bolder">Register</h1>
+                            <p class="lead fw-normal text-white-50 mb-0">Register Your Account ...</p>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <!-- END container -->
+             <br><br>
+        </div>  
+        <!-- END #register-cover -->
+        <br><br><br>
+        <div class="container">
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Please fix the following errors:</strong>
+                    <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
 
             <!-- BEGIN register -->
             <div class="register text-center col-md-4 col-md-offset-4">
-                <h1>Create Your Account</h1>
-                <br><br>
                 <form action="{% url 'register' %}" method="post" class="register-form">
                 {% csrf_token %}
                 {% comment %} {{ form.as_p }} {% endcomment %}
@@ -40,11 +68,8 @@
                 </p>
             </div>
             <!-- END register -->
-            </div>
-            <!-- END container -->
-            <br><br><br>
-            <br><br><br>
-        </div>  
-        <!-- END #register-cover -->
+        </div>
+        <br><br><br>
+        <br><br><br>
 
 {% endblock %}

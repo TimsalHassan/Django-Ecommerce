@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %} 
+{% load static %}
+    <!-- BEGIN #page-header -->
+    <div id="page-header" class="section-container page-header-container bg-black">
+    <!-- BEGIN page-header-cover -->
+    <div class="page-header-cover">
+        <img src="{% static "img/apple-cover.jpg" %}" alt="" />
+    </div>
+    <!-- END page-header-cover -->
+    <!-- BEGIN container -->
+    <div class="container">
+        <h1 class="page-header"><b>New Arrivals</b></h1>
+    </div>
+    <!-- END container -->
+    </div>
+    <!-- END #page-header -->
+
+
+    <!-- BEGIN search-item-container -->
+    {% if products %} 
+        <div class="search-item-container">
+            <!-- BEGIN item-row -->
+            <div class="row">
+            
+                {% for product in products %} 
+                    <!-- BEGIN item -->
+                    <div class="col-md-4 col-sm-6" style="margin-top:20px;">
+                    <div class="item item-thumbnail">
+                        <a href="{% url 'product_detail' product.id %}" class="item-image">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}"/>
+                        {% endif %} {% if product.is_discounted %}
+                        <div class="discount">{{ product.discount }}% OFF</div>
+                        {% endif %}
+                        </a>
+                        <div class="item-info">
+                        <h4 class="item-title">
+                        <a href="{% url 'product_detail' product.id %}">
+                            {{ product.name }}<br />{{ product.subtitle }}
+                        </a>
+                        </h4>
+                        <p class="item-desc">
+                        {{ product.description|truncatechars:80 }}
+                        </p>
+                        {% if product.is_discounted %}
+                        <div class="item-price">${{ product.discount_price }}</div>
+                        <div class="item-discount-price">${{ product.price }}</div>
+                        {% else %}
+                        <div class="item-price">${{ product.price }}</div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    </div>
+                    <!-- END item -->
+                {% empty %}
+                    <p>No products found.</p>
+                {% endfor %}
+            </div>
+            <!-- END item-row -->
+        </div>
+        <!-- END search-item-container -->
+        
+        <!-- BEGIN pagination -->
+        <div class="text-center">
+            <ul class="pagination m-t-0">
+            <!-- Previous -->
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% else %}
+                <li class="disabled"><span>Previous</span></li>
+            {% endif %}
+            <!-- Page Numbers -->
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="active"><span>{{ num }}</span></li>
+                {% else %}
+                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            <!-- Next -->
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% else %}
+                <li class="disabled"><span>Next</span></li>
+            {% endif %}
+
+            </ul>
+        </div>
+        <!-- END pagination -->
+    {% else %}
+        <div class="container" >
+            <br><br><br><br>
+            <div class="row">
+                <center>
+                    <h3>New Products coming soon</h3>
+                    <br><br>
+                    <a href="{% url 'home' %}" class="btn btn-default">Home</a>
+                </center>
+            </div>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+        </div>
+    {% endif %}
+
+{% endblock content %}

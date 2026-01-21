@@ -9,52 +9,50 @@
 
     {% if cart_products %}
     <div class="container">
-        {% for product in cart_products %}
+        {% for item in cart_products %}
             <div class="panel panel-default item item-thumbnail" style="margin-bottom:20px;">
             <div class="row">
                 <div class="col-md-4 text-center item-image" style="margin-top:35px;">
-                <img src="{{ product.image.url }}"
+                <img src="{{ item.product.image.url }}"
                     class="img-responsive center-block"
-                    alt="{{ product.name }}">
-                    <div class="discount">{{ product.discount }}% OFF</div>
+                    alt="{{ item.product.name }}">
+                    <div class="discount">{{ item.product.discount }}% OFF</div>
                 </div>
                 <div class="col-md-8">
                 <div class="panel-body text-center">
-                    <h4>{{ product.name }}</h4>
-                    <p>{{ product.description|truncatechars:120 }}</p>
-                    
-                    {% if product.is_discounted %}
+                    <h4>{{ item.product.name }}</h4>
+                    <p>{{ item.product.description|truncatechars:120 }}</p>
+
+                    {% if item.product.is_discounted %}
                         <span class="text-warning">Discount</span><br>
-                        <del>${{ product.price }}</del><br>
-                        ${{ product.discount_price }}
+                        <del>${{ item.product.price }}</del><br>
+                        ${{ item.product.discount_price }}
                     {% else %}
-                        <strong>${{ product.price }}</strong>
+                        <strong>${{ item.product.price }}</strong>
                     {% endif %}
                     <br><br>
                     <div class="row justify-content-center">
                     <div class="col-md-3">Quantity:</div>
                     <div class="col-md-2">
-                        <select class="form-control input-sm" id="select{{ product.id }}">
-                            {% for key, value in quantities.items %}
-                                {% if key == product.id|slugify %}
-                                    <option selected> {{ value }} </option>
-                                {% endif %}
+                        <select class="form-control input-sm" id="qty{{ item.product.id }}">
+                            {% for i in "12345" %}
+                            <option value="{{ forloop.counter }}"
+                                {% if forloop.counter == item.qty %}selected{% endif %}>
+                                {{ forloop.counter }}
+                            </option>
                             {% endfor %}
-                        
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
                         </select>
                     </div>
                     </div>
                     <br>
                     <a href="{% url 'home' %}" class="btn btn-default">Home</a>
-                    {% comment %} <button class="btn btn-default">Update</button>
-                    <button class="btn btn-danger">Remove</button> {% endcomment %}
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-default update-cart">Update</button>
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger delete-product">Remove</button>
+                    
+                    <button class="btn btn-default update-cart update-item" data-product="{{ item.product.id }}">
+                        Update
+                    </button>
+                    <button class="btn btn-danger delete-product delete-item" data-product="{{ item.product.id }}">
+                        Remove
+                    </button>
                 </div>
                 </div>
             </div>
@@ -63,7 +61,7 @@
         {% endfor %}
 
             <div align="right"><h3>Total : $ {{ totals }}</h3>
-            {% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a> {% endcomment %}
+            <a href="{% url 'checkout_cart' %}" class="btn btn-success">Checkout</a>
             </div>
     </div>
     {% else %}
@@ -78,58 +76,46 @@
 </div>
 
 <script>
-// Update the cart
-$(document).on('click', '.update-cart', function(e){
-  e.preventDefault();
-  // Grab the product id
-  var productid = $(this).data('index');
-  $.ajax({
-    type: 'POST',
-    url: '{% url 'cart_update' %}',
-    data: {
-      product_id: $(this).data('index'),
-      product_qty: $('#select' + productid + ' option:selected').text(),
-      csrfmiddlewaretoken: '{{ csrf_token }}',
-      action: 'post'
-    },
+$(document).on('click', '.update-item', function (e) {
+    e.preventDefault();
 
-    success: function(json){
-      // console.log(json)
-      //document.getElementById("cart_quantity").textContent = json.qty
-      location.reload();
-    },
+    let product_id = $(this).data('product');
+    let qty = $('#qty' + product_id).val();
 
-    error: function(xhr, errmsg, err){
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_update' %}",
+        data: {
+            product_id: product_id,
+            product_qty: qty,
+            action: 'post',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function () {
+            location.reload();
+        }
+    });
+});
 
-    }
-  });
-})
 
-// Delete form the cart
-$(document).on('click', '.delete-product', function(e){
-  e.preventDefault();
-  // Grab the product id
-  //var productid = $(this).data('index');
-  $.ajax({
-    type: 'POST',
-    url: '{% url 'cart_delete' %}',
-    data: {
-      product_id: $(this).data('index'),
-      csrfmiddlewaretoken: '{{ csrf_token }}',
-      action: 'post'
-    },
+$(document).on('click', '.delete-item', function (e) {
+    e.preventDefault();
 
-    success: function(json){
-      // console.log(json)
-      //document.getElementById("cart_quantity").textContent = json.qty
-      location.reload();
-    },
+    let product_id = $(this).data('product');
 
-    error: function(xhr, errmsg, err){
-
-    }
-  });
-})
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_delete' %}",
+        data: {
+            product_id: product_id,
+            action: 'post',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function () {
+            location.reload();
+        }
+    });
+});
 
 
 </script>

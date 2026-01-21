@@ -8,11 +8,6 @@
         <div class="container">
           <!-- BEGIN checkout -->
           <div class="checkout">
-            <form
-              action="checkout_info.html"
-              method="POST"
-              name="form_checkout"
-            >
               <!-- BEGIN checkout-header -->
               <div class="checkout-header">
                 <!-- BEGIN row -->
@@ -20,10 +15,10 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step active">
-                      <a href="#">
+                      <a href="{% url 'checkout_cart' %}">
                         <div class="number">1</div>
                         <div class="info">
-                          <div class="title">Delivery Options</div>
+                          <div class="title">Order Summary</div>
                           <div class="desc">Lorem ipsum dolor sit amet.</div>
                         </div>
                       </a>
@@ -33,7 +28,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_info.html">
+                      <a href="{% url 'checkout_info' %}">
                         <div class="number">2</div>
                         <div class="info">
                           <div class="title">Shipping Address</div>
@@ -46,7 +41,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_payment.html">
+                      <a href="{% url 'checkout_payment' %}">
                         <div class="number">3</div>
                         <div class="info">
                           <div class="title">Payment</div>
@@ -59,7 +54,7 @@
                   <!-- BEGIN col-3 -->
                   <div class="col-md-3 col-sm-3">
                     <div class="step">
-                      <a href="checkout_complete.html">
+                      <a href="{% url 'checkout_complete' %}">
                         <div class="number">4</div>
                         <div class="info">
                           <div class="title">Complete Payment</div>
@@ -79,93 +74,92 @@
                   <table class="table table-cart">
                     <thead>
                       <tr>
-                        <th>Product Name</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Quantity</th>
-                        <th class="text-center">Total</th>
+                          <th>Product Name</th>
+                          <th class="text-center">Price (each)</th>
+                          <th class="text-center">Quantity</th>
+                          <th class="text-center">Total</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {% for item in cart_items %}
                       <tr>
-                        <td class="cart-product">
-                          <div class="product-img">
-                            <img src="assets/img/iphone-6s-plus.png" alt="" />
-                          </div>
-                          <div class="product-info">
-                            <div class="title">
-                              iPhone 6s Plus 16GB (Silver)
+
+                          <td class="cart-product">
+                            <div class="product-img">
+                              <img src="{{ item.product.image.url }}" width="80" class="img-responsive">
+                              <div class="discount">{{ item.product.discount }}% OFF</div>
                             </div>
-                            <div class="desc">
-                              Delivers Tue 26/04/2016 - Free
+                            <div class="product-info">
+                              <div class="title">
+                                <strong>{{ item.product.name }}</strong>
+                              </div>
+                              <div class="desc">
+                                {{ item.product.description|truncatechars:120 }}
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td class="cart-price text-center">$999.00</td>
-                        <td class="cart-qty text-center">
-                          <div class="cart-qty-input">
-                            <a
-                              href="#"
-                              class="qty-control left disabled"
-                              data-click="decrease-qty"
-                              data-target="#qty"
-                              ><i class="fa fa-minus"></i
-                            ></a>
-                            <input
-                              type="text"
-                              name="qty"
-                              value="1"
-                              class="form-control"
-                              id="qty"
-                            />
-                            <a
-                              href="#"
-                              class="qty-control right disabled"
-                              data-click="increase-qty"
-                              data-target="#qty"
-                              ><i class="fa fa-plus"></i
-                            ></a>
-                          </div>
-                          <div class="qty-desc">1 to max order</div>
-                        </td>
-                        <td class="cart-total text-center">$999.00</td>
+                          </td>
+
+                          <td class="text-center">
+                            {% if item.product.is_discounted %}
+                              <del>${{ item.product.price|floatformat:2 }}</del><br>
+                              ${{ item.price|floatformat:2 }}
+                            {% else %}
+                              ${{ item.price|floatformat:2 }}
+                            {% endif %}
+                          </td>
+
+                          <td class="text-center">
+                                {{ item.qty }}
+                          </td>
+
+                          <td class="text-center">
+                              ${{ item.total|floatformat:2 }}
+                          </td>
                       </tr>
+                      {% endfor %}
+
                       <tr>
                         <td class="cart-summary" colspan="4">
                           <div class="summary-container">
                             <div class="summary-row">
-                              <div class="field">Cart Subtotal</div>
-                              <div class="value">$999.00</div>
+                                <div class="field">Cart Subtotal</div>
+                                <div class="value">${{ totals.subtotal|floatformat:2 }}</div>
                             </div>
                             <div class="summary-row text-danger">
-                              <div class="field">Free Shipping</div>
-                              <div class="value">$0.00</div>
+                                <div class="field">Discount</div>
+                                <div class="value">${{ totals.discount|floatformat:2 }}</div>
                             </div>
                             <div class="summary-row total">
-                              <div class="field">Total</div>
-                              <div class="value">${{ totals }}}}</div>
+                                <div class="field">Total</div>
+                                <div class="value">${{ totals.total|floatformat:2 }}</div>
                             </div>
                           </div>
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                
+                  <div class="summary-container">
+                    <h3>
+                      <div class="summary-row">
+                          <div class="field">Cart Total</div>
+                          <div class="value">${{ totals.total|floatformat:2 }}</div>
+                      </div>
+                    </h3>
+                  </div>
+
                 </div>
               </div>
               <!-- END checkout-body -->
               <!-- BEGIN checkout-footer -->
               <div class="checkout-footer">
-                <a href="{% url 'home' %}" class="btn btn-white btn-lg pull-left"
-                  >Continue Shopping</a
-                >
-                <button
-                  type="submit"
-                  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
-                >
-                  Checkout
-                </button>
+                <a href="{% url 'cart_summary' %}" class="btn btn-white btn-lg pull-left"
+                  >Update Items</a>
+                {% comment %} <a href="{% url 'checkout_info' %}" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
+                >checkout</a> {% endcomment %}
+                <a href="{% url 'checkout_info' %}" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">Checkout</a>
               </div>
               <!-- END checkout-footer -->
-            </form>
           </div>
           <!-- END checkout -->
         </div>
