@@ -12,4 +12,4 @@ node_modules/
 *.log
 *.pot   
 *.py[cod]
-*$py.class  
+*$py.class

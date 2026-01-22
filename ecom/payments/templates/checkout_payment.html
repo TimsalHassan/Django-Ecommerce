@@ -158,12 +158,6 @@
                                 Payment Types <span class="text-danger">*</span>
                             </label>
                             <div class="col-md-8">
-                                {% comment %} <ul class="list-inline payment-type">
-                                    <li onclick="setPayment('paypal')"><i class="fa fa-cc-paypal"></i></li>
-                                    <li onclick="setPayment('visa')"><i class="fa fa-cc-visa"></i></li>
-                                    <li onclick="setPayment('mastercard')"><i class="fa fa-cc-mastercard"></i></li>
-                                    <li onclick="setPayment('discover')"><i class="fa fa-cc-discover"></i></li>
-                                </ul> {% endcomment %}
                                 {{ Billing_form.payment_type }}
                                 <ul class="list-inline payment-type">
                                     <li><a href="#" data-click="set-payment" data-value="Paypal" data-payment="paypal" data-toggle="tooltip" data-title="Paypal" data-placement="top" data-trigger="hover"><i class="fa fa-cc-paypal"></i></a></li>
@@ -214,10 +208,10 @@
                   class="btn btn-white btn-lg pull-left"
                   >Back</a
                 >
-                <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
-                >Proceed</button>
-                <a href="{% url 'stripe_checkout' %}" class="btn btn-success btn-lg">
-                    Pay with Card
+                {% comment %} <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10"
+                >Proceed</button> {% endcomment %}
+                <a href="{% url 'stripe_checkout' %}" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">
+                    Proceed
                 </a>
 
               </div>

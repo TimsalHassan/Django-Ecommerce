@@ -1,7 +1,7 @@
 import stripe
 
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.conf import settings
 from cart.cart import Cart
@@ -10,6 +10,9 @@ from orders.models import Order, OrderItem
 from .forms import PaymentForm
 
 from products.models import Product
+from users.models import Profile
+from django.utils import timezone
+import uuid
 
 # Create your views here.
 stripe.api_key = settings.STRIPE_API_SECRET_KEY
@@ -84,59 +87,6 @@ def create_checkout_session(request):
     return redirect(session.url, code=303)
 
 
-    
-def checkout_complete(request):
-    cart_data = request.session.get('checkout_cart')
-    totals = request.session.get('checkout_totals')
-    shipping = request.session.get('my_shipping')
-
-    if not cart_data or not totals or not shipping:
-        messages.error(request, "Session expired")
-        return redirect('home')
-
-    # Create Order
-    if request.user.is_authenticated:
-        order = Order.objects.create(
-            user=request.user,
-            full_name=f"{shipping['first_name']} {shipping['last_name']}",
-            email=shipping['email'],
-            shipping_address=f"{shipping['primary_phone']}\n{shipping['city']}\n{shipping['state']}",
-            amount_paid=totals['total']
-        )
-    else:
-        order = Order.objects.create(
-            full_name=f"{shipping['first_name']} {shipping['last_name']}",
-            email=shipping['email'],
-            shipping_address=f"{shipping['primary_phone']}\n{shipping['city']}\n{shipping['state']}",
-            amount_paid=totals['total']
-        )
-
-    # Create Order Items
-    for product_id, qty in cart_data.items():
-        product = Product.objects.get(id=product_id)
-        price = product.discount_price if product.is_discounted else product.price
-
-        OrderItem.objects.create(
-            order=order,
-            product=product,
-            quantity=qty,
-            price=price
-        )
-
-    # Clear session
-    for key in ['checkout_cart', 'checkout_totals', 'my_shipping', 'session_key']:
-        if key in request.session:
-            del request.session[key]
-
-    messages.success(request, "Payment successful! Order placed.")
-    return render(request, 'checkout_complete.html', {'order': order})
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.utils import timezone
-from products.models import Product
-from orders.models import Order, OrderItem
-import uuid
-
 def checkout_complete(request):
     cart_data = request.session.get('checkout_cart')
     totals = request.session.get('checkout_totals')
@@ -146,10 +96,11 @@ def checkout_complete(request):
         messages.error(request, "Session expired. Please try again.")
         return redirect('home')
 
+    # Generate references (NOT stored in DB, only for display)
     transaction_ref = f"REF-{uuid.uuid4().hex[:8].upper()}"
     auth_code = f"AUTH-{uuid.uuid4().hex[:6].upper()}"
 
-    # Create Order
+    # Create Order (ONLY model fields)
     order = Order.objects.create(
         user=request.user if request.user.is_authenticated else None,
         full_name=f"{shipping['first_name']} {shipping['last_name']}",
@@ -161,8 +112,6 @@ def checkout_complete(request):
             f"{shipping.get('country', '')}"
         ),
         amount_paid=totals['total'],
-        transaction_id=transaction_ref,
-        created_at=timezone.now(),
     )
 
     # Create Order Items
@@ -178,15 +127,30 @@ def checkout_complete(request):
             price=price
         )
 
-    # Clear session
+    # Clear cart + checkout data
+    # for key in ['checkout_cart', 'checkout_totals', 'my_shipping', 'session_key']:
+    #     request.session.pop(key, None)
+
+    # Clear session cart
     for key in ['checkout_cart', 'checkout_totals', 'my_shipping', 'session_key']:
         request.session.pop(key, None)
 
+    request.session.modified = True
+
+    # Clear persisted cart (THIS WAS THE BUG)
+    if request.user.is_authenticated:
+        Profile.objects.filter(user=request.user).update(old_cart=None)
+
     messages.success(request, "Payment successful! Order placed.")
+
+
+    # request.session.modified = True
+
+    # messages.success(request, "Payment successful! Order placed.")
 
     return render(request, 'checkout_complete.html', {
         'order': order,
-        'order_items': order.orderitem_set.all(),  # CORRECT
+        'order_items': order.orderitem_set.all(),
         'transaction_ref': transaction_ref,
         'auth_code': auth_code,
     })

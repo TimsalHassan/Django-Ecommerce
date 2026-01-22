@@ -67,18 +67,6 @@ def home(request):
     })
 
 
-# def category_view(request, category_slug):
-#     category = get_object_or_404(Category, slug=category_slug, is_active=True)
-#     products = category.products.filter(is_active=True)[:6]
-#     return render(request, 'index.html', {
-#         'category': category,
-#         'products': products
-#     })
-
-
-# def category(request):
-#     return render(request, 'category.html')
-
 def category_list(request):
     return render(request, 'category_list.html')
 
